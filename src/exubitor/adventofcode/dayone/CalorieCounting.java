@@ -50,8 +50,16 @@ public class CalorieCounting {
         return elfInventoriesCalorieSums.get(elfInventoriesCalorieSums.size() - 1);
     }
 
+    public int getSumOfHighest3CalorieCounts() {
+        int highestCalorieCount = getHighestCalorieCount();
+        int secondHighestCalorieCount = elfInventoriesCalorieSums.get(elfInventoriesCalorieSums.size() - 2);
+        int thirdHighestCalorieCount = elfInventoriesCalorieSums.get(elfInventoriesCalorieSums.size() - 3);
+        return highestCalorieCount + secondHighestCalorieCount + thirdHighestCalorieCount;
+    }
+
     public static void main(String[] args) {
         CalorieCounting cc = new CalorieCounting();
         System.out.println(cc.getHighestCalorieCount());
+        System.out.println(cc.getSumOfHighest3CalorieCounts());
     }
 }
