@@ -14,6 +14,11 @@ import java.util.List;
  * X is player rock<br>
  * Y is player paper<br>
  * Z is player scissors<br>
+ * <br>
+ * Part Two:<br>
+ * X is player needs to lose<br>
+ * Y is player needs to tie<br>
+ * Z is player needs to win
  */
 public class RockPaperScissors {
 
@@ -42,7 +47,7 @@ public class RockPaperScissors {
         }
     }
 
-    private int getTotalScoreForUsingShapes() {
+    private int getTotalScoreForUsingShapesPartOne() {
         int totalScoreForUsingShapes = 0;
         for (char c : playerChoices) {
             switch (c) {
@@ -54,7 +59,7 @@ public class RockPaperScissors {
         return totalScoreForUsingShapes;
     }
 
-    private int getTotalScoreForOutcomeOfRound() {
+    private int getTotalScoreForOutcomeOfRoundPartOne() {
         int totalScoreForOutcomeOfRound = 0;
         for (int i = 0; i < inputAsStrings.size(); i++) {
             totalScoreForOutcomeOfRound += getScoreForOutcomeOfOneRound(enemyChoices.get(i), playerChoices.get(i));
@@ -96,12 +101,12 @@ public class RockPaperScissors {
         return -1;
     }
 
-    public int getTotalScore() {
-        return getTotalScoreForUsingShapes() + getTotalScoreForOutcomeOfRound();
+    public int getTotalScorePartOne() {
+        return getTotalScoreForUsingShapesPartOne() + getTotalScoreForOutcomeOfRoundPartOne();
     }
 
     public static void main(String[] args) {
         RockPaperScissors rps = new RockPaperScissors();
-        System.out.println(rps.getTotalScore());
+        System.out.println(rps.getTotalScorePartOne());
     }
 }
