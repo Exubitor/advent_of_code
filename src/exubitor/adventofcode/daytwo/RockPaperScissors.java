@@ -7,24 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A is enemy rock<br>
- * B is enemy paper<br>
- * C is enemy scissors<br>
- * <br>
- * X is player rock<br>
- * Y is player paper<br>
- * Z is player scissors<br>
+ * A = rock<br>
+ * B = paper<br>
+ * C = scissors<br>
  * <br>
  * Part Two:<br>
- * X is player needs to lose<br>
- * Y is player needs to tie<br>
- * Z is player needs to win
+ * X means player needs to lose<br>
+ * Y means player needs to tie<br>
+ * Z means player needs to win
  */
 public class RockPaperScissors {
 
     private final List<String> inputAsStrings;
     private final List<Character> enemyChoices;
     private final List<Character> playerChoices;
+    private final static int LETTER_SHIFT_FROM_A_TO_X = 23;
 
     public RockPaperScissors() {
         File input = new File("src/exubitor/adventofcode/daytwo/resource/input.txt");
@@ -43,26 +40,26 @@ public class RockPaperScissors {
 
     private void parsePlayerChoices() {
         for (String s : inputAsStrings) {
-            playerChoices.add(s.charAt(2));
+            playerChoices.add((char)(s.charAt(2)-LETTER_SHIFT_FROM_A_TO_X));
         }
     }
 
-    private int getTotalScoreForUsingShapesPartOne() {
+    private int getTotalScoreForUsingShapes(List<Character> choices) {
         int totalScoreForUsingShapes = 0;
-        for (char c : playerChoices) {
+        for (char c : choices) {
             switch (c) {
-                case 'X' -> totalScoreForUsingShapes += 1;
-                case 'Y' -> totalScoreForUsingShapes += 2;
-                case 'Z' -> totalScoreForUsingShapes += 3;
+                case 'A' -> totalScoreForUsingShapes += 1;
+                case 'B' -> totalScoreForUsingShapes += 2;
+                case 'C' -> totalScoreForUsingShapes += 3;
             }
         }
         return totalScoreForUsingShapes;
     }
 
-    private int getTotalScoreForOutcomeOfRoundPartOne() {
+    private int getTotalScoreForOutcomeOfRound(List<Character> choices) {
         int totalScoreForOutcomeOfRound = 0;
         for (int i = 0; i < inputAsStrings.size(); i++) {
-            totalScoreForOutcomeOfRound += getScoreForOutcomeOfOneRound(enemyChoices.get(i), playerChoices.get(i));
+            totalScoreForOutcomeOfRound += getScoreForOutcomeOfOneRound(enemyChoices.get(i), choices.get(i));
         }
         return totalScoreForOutcomeOfRound;
     }
@@ -74,9 +71,6 @@ public class RockPaperScissors {
      * -1 if something went wrong
      */
     private int getScoreForOutcomeOfOneRound(char enemyChoice, char playerChoice) {
-        final int LETTER_SHIFT_FROM_A_TO_X = 23;
-        playerChoice = (char) (playerChoice - LETTER_SHIFT_FROM_A_TO_X);
-
         if (enemyChoice == playerChoice) {
             return 3; //draw
         }
@@ -102,7 +96,7 @@ public class RockPaperScissors {
     }
 
     public int getTotalScorePartOne() {
-        return getTotalScoreForUsingShapesPartOne() + getTotalScoreForOutcomeOfRoundPartOne();
+        return getTotalScoreForUsingShapes(playerChoices) + getTotalScoreForOutcomeOfRound(playerChoices);
     }
 
     public static void main(String[] args) {
