@@ -21,6 +21,7 @@ public class RockPaperScissors {
     private final List<String> inputAsStrings;
     private final List<Character> enemyChoices;
     private final List<Character> playerChoices;
+    private final List<Character> playerChoicesPartTwo;
     private final static int LETTER_SHIFT_FROM_A_TO_X = 23;
 
     public RockPaperScissors() {
@@ -30,6 +31,8 @@ public class RockPaperScissors {
         playerChoices = new ArrayList<>();
         parseEnemyChoices();
         parsePlayerChoices();
+        playerChoicesPartTwo = new ArrayList<>();
+        parsePlayerChoicesPartTwo();
     }
 
     private void parseEnemyChoices() {
@@ -40,7 +43,47 @@ public class RockPaperScissors {
 
     private void parsePlayerChoices() {
         for (String s : inputAsStrings) {
-            playerChoices.add((char)(s.charAt(2)-LETTER_SHIFT_FROM_A_TO_X));
+            playerChoices.add((char) (s.charAt(2) - LETTER_SHIFT_FROM_A_TO_X));
+        }
+    }
+
+    private void parsePlayerChoicesPartTwo() {
+        for (String s : inputAsStrings) {
+            if (s.charAt(2) == 'X') {
+                playerChoicesPartTwo.add(getCharacterThatLosesAgainst(s.charAt(0)));
+            }
+            if (s.charAt(2) == 'Y') {
+                playerChoicesPartTwo.add((s.charAt(0)));
+            }
+            if (s.charAt(2) == 'Z') {
+                playerChoicesPartTwo.add(getCharacterThatWinsAgainst(s.charAt(0)));
+            }
+        }
+    }
+
+    private char getCharacterThatWinsAgainst(char choice) {
+        switch (choice) {
+            case 'A':
+                return 'B';
+            case 'B':
+                return 'C';
+            case 'C':
+                return 'A';
+            default:
+                return (char) 0;
+        }
+    }
+
+    private char getCharacterThatLosesAgainst(char choice) {
+        switch (choice) {
+            case 'A':
+                return 'C';
+            case 'B':
+                return 'A';
+            case 'C':
+                return 'B';
+            default:
+                return (char) 0;
         }
     }
 
@@ -56,7 +99,7 @@ public class RockPaperScissors {
         return totalScoreForUsingShapes;
     }
 
-    private int getTotalScoreForOutcomeOfRound(List<Character> choices) {
+    private int getTotalScoreForOutcomeOfRounds(List<Character> choices) {
         int totalScoreForOutcomeOfRound = 0;
         for (int i = 0; i < inputAsStrings.size(); i++) {
             totalScoreForOutcomeOfRound += getScoreForOutcomeOfOneRound(enemyChoices.get(i), choices.get(i));
@@ -96,11 +139,16 @@ public class RockPaperScissors {
     }
 
     public int getTotalScorePartOne() {
-        return getTotalScoreForUsingShapes(playerChoices) + getTotalScoreForOutcomeOfRound(playerChoices);
+        return getTotalScoreForUsingShapes(playerChoices) + getTotalScoreForOutcomeOfRounds(playerChoices);
+    }
+
+    public int getTotalScorePartTwo() {
+        return getTotalScoreForUsingShapes(playerChoicesPartTwo) + getTotalScoreForOutcomeOfRounds(playerChoicesPartTwo);
     }
 
     public static void main(String[] args) {
         RockPaperScissors rps = new RockPaperScissors();
         System.out.println(rps.getTotalScorePartOne());
+        System.out.println(rps.getTotalScorePartTwo());
     }
 }
