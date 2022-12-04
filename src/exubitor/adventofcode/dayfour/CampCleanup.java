@@ -63,6 +63,19 @@ public class CampCleanup {
         }
     }
 
+    private boolean determineOneTaskOverlapsWithTheOther(Integer[] firstPartOfPair, Integer[] secondPartOfPair) {
+        Set<Integer> set = new HashSet<>();
+        for (int i = firstPartOfPair[0]; i <= firstPartOfPair[1]; i++) {
+            set.add(i);
+        }
+        for (int i = secondPartOfPair[0]; i <= secondPartOfPair[1]; i++) {
+            if (!set.add(i)) { //means the second elf has at least one int that overlaps with the first one
+                return true;
+            }
+        }
+        return false;
+    }
+
     private boolean firstPartCoversMoreRange(Integer[] firstPartOfPair, Integer[] secondPartOfPair) {
         List<Integer> rangeOfFirstPart = new ArrayList<>();
         List<Integer> rangeOfSecondPart = new ArrayList<>();
@@ -86,8 +99,20 @@ public class CampCleanup {
         return amountOfRedundantElfs;
     }
 
+    public int getAmountOfTaskOverlaps() {
+        int amountOfTaskOverlaps = 0;
+        for (int i = 0; i < inputAsStrings.size(); i++) {
+            if (determineOneTaskOverlapsWithTheOther(firstPartOfPairs.get(i), secondPartOfPairs.get(i))) {
+                amountOfTaskOverlaps++;
+            }
+        }
+
+        return amountOfTaskOverlaps;
+    }
+
     public static void main(String[] args) {
         CampCleanup cc = new CampCleanup();
         System.out.println(cc.getAmountOfRedundantElfs());
+        System.out.println(cc.getAmountOfTaskOverlaps());
     }
 }
