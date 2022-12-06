@@ -21,7 +21,7 @@ public class SupplyStacks {
         parseStacksFromInputString();
         craneOrders = new ArrayList<>();
         parseCraneOrdersFromInputString();
-        doAllTheCraneOrders();
+        doAllTheCraneOrdersMultipleCratesAtATime();
     }
 
     private void parseCraneOrdersFromInputString() {
@@ -68,11 +68,31 @@ public class SupplyStacks {
         }
     }
 
+    private void doAllTheCraneOrdersMultipleCratesAtATime() {
+        for (Integer[] currentOrder : craneOrders) {
+            int currentGivingStackNumber = currentOrder[1] - 1;
+            int currentReceivingStackNumber = currentOrder[2] - 1;
+            int currentAmountOfCratesToBeMoved = currentOrder[0];
+            doOneCraneOrderMultipleCratesAtATime(currentGivingStackNumber, currentAmountOfCratesToBeMoved, currentReceivingStackNumber);
+        }
+    }
+
     private void doOneCraneOrder(int givingStackNumber, int cratesToBeMoved, int receivingStackNumber) {
         Stack<Character> givingStack = stacksList.get(givingStackNumber);
         Stack<Character> receivingStack = stacksList.get(receivingStackNumber);
         for (int i = 0; i < cratesToBeMoved; i++) {
             receivingStack.add(givingStack.pop());
+        }
+    }
+
+    private void doOneCraneOrderMultipleCratesAtATime(int givingStackNumber, int cratesToBeMoved, int receivingStackNumber) {
+        Stack<Character> givingStack = stacksList.get(givingStackNumber);
+        Stack<Character> receivingStack = stacksList.get(receivingStackNumber);
+        for (int i = cratesToBeMoved; i > 0; i--) {
+            receivingStack.add(givingStack.get(givingStack.size() - i));
+        }
+        for (int i = 0; i < cratesToBeMoved; i++) {
+            givingStack.pop();
         }
     }
 
