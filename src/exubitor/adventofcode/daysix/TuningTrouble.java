@@ -23,6 +23,15 @@ public class TuningTrouble {
         throw new RuntimeException("Couldn't find marker");
     }
 
+    public int getMessageMarker(){
+        for (int i = 0; i < inputSignal.length()-14; i++) {
+            if (checkIfNoDoubleCharacter(inputSignal.substring(i,i+14))){
+                return i+14;
+            }
+        }
+        throw new RuntimeException("Couldn't find marker");
+    }
+
     private boolean checkIfNoDoubleCharacter(String string){
         Set<Character> set = new HashSet<>();
         for (int i = 0; i < string.length(); i++) {
@@ -36,5 +45,6 @@ public class TuningTrouble {
     public static void main(String[] args) {
         TuningTrouble tt = new TuningTrouble();
         System.out.println(tt.getMarker());
+        System.out.println(tt.getMessageMarker());
     }
 }
