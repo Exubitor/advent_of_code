@@ -14,19 +14,15 @@ public class TuningTrouble {
         inputSignal= MyFileInput.parseInputToStringList(new File("src/exubitor/adventofcode/daysix/resource/input.txt")).get(0);
     }
 
-    public int getMarker(){
-        for (int i = 0; i < inputSignal.length()-4; i++) {
-            if (checkIfNoDoubleCharacter(inputSignal.substring(i,i+4))){
-                return i+4;
-            }
-        }
-        throw new RuntimeException("Couldn't find marker");
-    }
-
-    public int getMessageMarker(){
-        for (int i = 0; i < inputSignal.length()-14; i++) {
-            if (checkIfNoDoubleCharacter(inputSignal.substring(i,i+14))){
-                return i+14;
+    /**
+     * @param string
+     * @param range the range in which is checked
+     * @return the index of the given strings first occurrence of no double character in the given range
+     */
+    private int getMarkerLocation(String string, int range){
+        for (int i = 0; i < string.length()-range; i++) {
+            if (checkIfNoDoubleCharacter(string.substring(i,i+range))){
+                return i+range;
             }
         }
         throw new RuntimeException("Couldn't find marker");
@@ -42,9 +38,16 @@ public class TuningTrouble {
         return true;
     }
 
+    public int getPacketMarker(){
+        return getMarkerLocation(inputSignal, 4);
+    }
+    public int getMessageMarker(){
+        return getMarkerLocation(inputSignal, 14);
+    }
+
     public static void main(String[] args) {
         TuningTrouble tt = new TuningTrouble();
-        System.out.println(tt.getMarker());
+        System.out.println(tt.getPacketMarker());
         System.out.println(tt.getMessageMarker());
     }
 }
